@@ -1,0 +1,42 @@
+class LinearTransform
+  # The matrix representing the linear transformation
+  property matrix : Array(Array(Float64))
+
+  # Initializes a new LinearTransform instance with the given matrix
+  def initialize(matrix : Array(Array(Float64)))
+    @matrix = matrix
+  end
+
+  # Applies the linear transformation to the given input vector and
+  # returns the transformed vector
+  def transform(vector : Array(Float64))
+    # Validate the size of the input vector
+    if vector.size != matrix.size
+      raise "Invalid input vector size"
+    end
+
+    # Create an empty output vector with the same size as the input vector
+    output = Array(Float64).new(vector.size)
+
+    # Loop through the rows and columns of the matrix and apply the
+    # linear transformation to the input vector
+    matrix.each_with_index do |row, i|
+      row.each_with_index do |element, j|
+        output[i] += element * vector[j]
+      end
+    end
+
+    # Return the transformed vector
+    output
+  end
+end
+
+# Create a new LinearTransform instance with the matrix
+# representing a 90-degree clockwise rotation
+transform = LinearTransform.new([[0, -1], [1, 0]])
+
+# Apply the transformation to the input vector [1, 1]
+vector = transform.transform([1, 1])
+
+# Print the transformed vector
+puts vector # Output: [-1, 1]
